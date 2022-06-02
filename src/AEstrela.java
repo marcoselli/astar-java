@@ -56,7 +56,7 @@ public class AEstrela {
 	
 
 	public void AStarSearch(){
-		if(isResolvivel(estadoInicialArray)){
+		if(!isResolvivel(estadoInicialArray)){
 			System.out.println("Esse quebra-cabeça não tem solução. Deseja continuar mesmo assim? (Y/n)");
 			Scanner ler = new Scanner(System.in);
 			String opcao = ler.nextLine();
@@ -78,6 +78,7 @@ public class AEstrela {
 
 		this.numNoExpandido = 0;
 		System.out.println("Número de nós expandidos: ");
+
 		while(!this.abertos.isEmpty()){
 			//Encontra o nó com o menor custo de F(n)
 			No atual;
@@ -89,10 +90,9 @@ public class AEstrela {
 					pos = i;
 				}
 			}
-			//this is the node we found it
+
 			atual = abertos.get(pos);
-			
-			//is this node's state the same as the GOAL state?!?!
+
 			if(atual.getEstado().equals(this.objetivo)){
 				//Resolvido
 				if(atual.getNoPai() == null){
@@ -172,7 +172,7 @@ public class AEstrela {
 		int invCount = getNumeroInversao(matrizInicial);
 
 		// O quebra-cabeça é resolvível se a quantidade de inversões for par
-		return (invCount % 2 == 0);
+		return (invCount % 2 != 0);
 	}
 	public String printaCaminho(Map<String, String> historicoCaminho, No noAtual){
 		String result = "";

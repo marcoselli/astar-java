@@ -58,12 +58,6 @@ public class No {
 		atual2D = converteArrayEmMatriz(atual);
 		objetivo2D = converteArrayEmMatriz(objetivo);
 
-		//the manhatten distance
-		//int val: n
-		//val coord: (x1,y1)
-		//find goalVal
-		//goal coord: (x2,y2)
-		//distance: |x1-x2| + |y1-y2|
 		for(int i = 0; i< LINHAS; i++){
 			for(int j = 0; j< COLUNAS; j++){
 				int val = atual2D[i][j];
@@ -74,7 +68,7 @@ public class No {
 				int x2=0;
 				int y2=0;
 
-				//find the goal coordinates
+				// Encontra as coordenadas desejadas
 				for(int l = 0; l< LINHAS; l++){
 					for(int m = 0; m< COLUNAS; m++){
 						int goalVal = objetivo2D[l][m];
@@ -85,7 +79,7 @@ public class No {
 						}
 					}
 				}
-				//calculates current value's manhattan distance
+				// Calcula o valor atual da distância de Manhattan
 				hn +=  Math.abs(x1-x2) + Math.abs(y1-y2);
 			}
 		}
@@ -114,39 +108,31 @@ public class No {
 		//Converte array em matriz para facilitar nos cálculos
 		atual2D = converteArrayEmMatriz(atual);
 
-		//figure out the possible paths based on the 0 element
-		//find 0
-		//0 coords: x, y
-		//check left, right, up, down
-		//left: (x,y-1)
-		//right: (x,y+1)
-		//up: (x-1, y)
-		//down: (x+1,y)
 		for(int i = 0; i< LINHAS; i++){
 			for(int j = 0; j< COLUNAS; j++){
 				int val = atual2D[i][j];
 				if(val==0){
 					int x=i;
 					int y=j;
-					//slide left
+					// Movimenta para esquerda
 					if(y-1 >= 0){
 						novoEstado = movimentaPeca(x, y, x, y-1, atual2D);
 						
 						estados.add(new No(novoEstado, custo));
 					}
-					//slide right
+					// Movimenta para direita
 					if(y+1 < COLUNAS){
 						novoEstado = movimentaPeca(x, y, x, y+1, atual2D);
 						
 						estados.add(new No(novoEstado, custo));
 					}
-					//slide up
+					// Movimenta para cima
 					if(x-1>=0){
 						novoEstado = movimentaPeca(x,y,x-1,y, atual2D);
 						
 						estados.add(new No(novoEstado, custo));
 					}
-					//slide down
+					// Movimenta para baixo
 					if(x+1 < LINHAS){
 						novoEstado = movimentaPeca(x,y,x+1,y,atual2D);
 						
@@ -156,7 +142,7 @@ public class No {
 			}			
 		}
 		
-		//calculate and set each state's f(n)
+		//Calcula o F(n) de cada estado
 		//set the parent node of each neighbour to this
 		for(int i = 0; i < estados.size(); i++){
 			if(heuristica== Heuristica.DISTANCIA_HAMMING){
@@ -171,7 +157,7 @@ public class No {
 			}
 		}
 		
-		estados = mergeSort(estados); //Ordena os nós vizinhos por prioridade através do merge sort
+		estados = mergeSort(estados); // Ordena os nós vizinhos por prioridade através do merge sort
 		return estados;
 	}
 
@@ -230,7 +216,7 @@ public class No {
 			}
 		}
 
-		//Troca posição das peças
+		// Troca posição das peças
 		int temp = configuracao[x1][y1];
 		configuracao[x1][y1] = configuracao[x2][y2];
 		configuracao[x2][y2] = temp;
@@ -238,7 +224,7 @@ public class No {
 
 		int[] config = new int[MATRIZ];
 
-		//Converte Matriz para Array
+		// Converte Matriz para Array
 		for(int linha = 0; linha < LINHAS; linha++){
 			for(int coluna = 0; coluna < COLUNAS; coluna++){
 				config[pos] = configuracao[linha][coluna];
