@@ -1,8 +1,3 @@
-/**
- * @file AStar.java
- * @author Natasha Squires <nsquires@upei.ca>
- * Implements the A* algorithm 
- */
 import java.util.*;
 
 public class AEstrela {
@@ -20,9 +15,9 @@ public class AEstrela {
 	private int custoCaminho;
 
 	public AEstrela(Heuristica escolhaHeuristica){
-		this.abertos = new ArrayList<>(); //empty open set
-		this.fechados = new ArrayList<>(); //empty closed set
-		this.explorados = new HashMap<>(); //empty explored set
+		this.abertos = new ArrayList<>();
+		this.fechados = new ArrayList<>();
+		this.explorados = new HashMap<>();
 		this.objetivo = new Estado(this.estadoObjetivo);
 		this.estadoInicialArray = new int[MATRIZ];
 		criaTabuleiroRandomico();
@@ -76,7 +71,7 @@ public class AEstrela {
 		//Adiciona o nó na lista de abertos
 		abertos.add(noInicial);
 		
-		//Custo estamatido total a partir do estado inicial
+		//Custo estimado total a partir do estado inicial
 		//Estado inicial começa com G(n) = 0
 		heuristica(noInicial);
 		noInicial.setCustoFn();
@@ -99,10 +94,10 @@ public class AEstrela {
 			
 			//is this node's state the same as the GOAL state?!?!
 			if(atual.getEstado().equals(this.objetivo)){
-				//solved!
+				//Resolvido
 				this.explorados.put(atual.getNoPai().converteParaString(), atual.converteParaString());
 				String path = printaCaminho(this.explorados, atual);
-				//print out the solution
+				//Printa a solução
 				System.out.println("\nCaminho: \n" + path);
 				System.out.println(atual.converteParaString());
 
@@ -111,46 +106,42 @@ public class AEstrela {
 				break;
 			}
 			
-			//remove current from the frontier
+			// Remove o nó atual da borda e adiciona nos fechados
 			this.abertos.remove(atual);
-			//add current to closed set
 			this.fechados.add(atual);
-			
-			//increase pathCost since we have to expand the path
-			//note: the distance from current to a neighbour will just
-			//      be 1 in the case of the 8 puzzle
-			this.custoCaminho = atual.getGn()+1;
-			//get current's state expansion. This will return a list of prioritised neighbours to explore
+
+			// Incrementa o custo de G(n)
+			this.custoCaminho = atual.getGn() + 1;
+
+			// Expande o nó atual retornando uma lista de prioridade
 			List<No> listaNoVizinho = expande(atual, custoCaminho);
 			this.numNoExpandido++;
 			System.out.print(numNoExpandido + ", ");
-			
-			//for neighbour in neighbourNodes
+
+			// Checa se os nós vizinhos já estão listados em abertos ou fechados
 			for(int i = 0; i < listaNoVizinho.size(); i++){
 				No noVizinho = listaNoVizinho.get(i);
-				//System.out.println(neighbour);
+
 				boolean isPresentAbertos = false;
-				//check to see if it's in the closed set so we don't re-explore it
 				for(int j = 0; j< this.fechados.size(); j++){
 					if(noVizinho.getEstado().equals(this.fechados.get(j).getEstado()))
 						isPresentAbertos=true;
 				}
-				//check to see if it's the open set
+
 				boolean isPresentFechados = false;
 				for(int j = 0; j< this.abertos.size(); j++){
 					if(noVizinho.getEstado().equals(this.abertos.get(j).getEstado()))
 						isPresentFechados=true;
 				}
-				//can explore the node
+
+				// Condição para explorar o nó
 				if(!isPresentAbertos){
-					//if it's not in the open set
 					if(!isPresentFechados){
-						//convert current and neighbour states to strings
 						String currentString = atual.converteParaString();
 						String neighbourString = noVizinho.converteParaString();
 						this.explorados.put(currentString, neighbourString);
 						
-						//add to frontier
+						// Adiciona na lista de abertos
 						this.abertos.add(noVizinho);
 					}
 				}
@@ -180,16 +171,15 @@ public class AEstrela {
 	}
 	public String printaCaminho(Map<String, String> historicoCaminho, No noAtual){
 		String result = "";
-	
-		//beyond the graph at this point: done
+
 		if(noAtual.getNoPai()==null){
 			return result;
 		}
 		else{
-			//find parent in explored map
+			// Encontra o pai no nó explorado
 			String parent="";
 			if(historicoCaminho.containsKey(noAtual.getNoPai().converteParaString()))
-				parent+=noAtual.getNoPai().converteParaString();
+				parent += noAtual.getNoPai().converteParaString();
 			//move up to parent node	
 			result += printaCaminho(historicoCaminho, noAtual.getNoPai()) + "\n" + parent;
 		}

@@ -1,8 +1,3 @@
-/**
- * @file Node.java
- * @author Natasha Squires <nsquires@upei.ca>
- * Represents a Node for the 8 puzzle, which is the board state
- */
 import java.util.*;
 
 public class No {

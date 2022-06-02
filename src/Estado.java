@@ -1,8 +1,3 @@
-/**
- * @file State.java
- * @author Natasha Squires <nsquires@upei.ca>
- * Represents the current state of the board for a particular node
- */
 public class Estado {
 	private final static int MATRIZ = 9 ;
 	private int[] estadoAtual = new int[MATRIZ];
