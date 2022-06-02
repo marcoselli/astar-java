@@ -56,7 +56,7 @@ public class AEstrela {
 	
 
 	public void AStarSearch(){
-		if(isResolvivel(estadoInicialArray) == false){
+		if(isResolvivel(estadoInicialArray)){
 			System.out.println("Esse quebra-cabeça não tem solução. Deseja continuar mesmo assim? (Y/n)");
 			Scanner ler = new Scanner(System.in);
 			String opcao = ler.nextLine();
@@ -66,7 +66,7 @@ public class AEstrela {
 		}
 
 		No noInicial = new No(estadoInicial);
-		System.out.println("Start: \n" + noInicial);
+		System.out.println("Início: \n" + noInicial);
 		
 		//Adiciona o nó na lista de abertos
 		abertos.add(noInicial);
@@ -95,6 +95,11 @@ public class AEstrela {
 			//is this node's state the same as the GOAL state?!?!
 			if(atual.getEstado().equals(this.objetivo)){
 				//Resolvido
+				if(atual.getNoPai() == null){
+					System.out.println(atual.converteParaString());
+					System.out.println("Custo caminho:" + this.custoCaminho);
+					return;
+				}
 				this.explorados.put(atual.getNoPai().converteParaString(), atual.converteParaString());
 				String path = printaCaminho(this.explorados, atual);
 				//Printa a solução

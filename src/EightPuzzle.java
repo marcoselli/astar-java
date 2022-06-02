@@ -30,7 +30,7 @@ public class EightPuzzle {
           escolhaTabuleiro = menuTabuleiro(ler);
           if(escolhaTabuleiro == 2){
             System.out.println("\nDigite os número de 0-8 na ordem que preferir:");
-            for(int i = 0; i < 8; i++){
+            for(int i = 0; i < 9; i++){
               arrayInicial[i] = ler.nextInt();
             }
           }
